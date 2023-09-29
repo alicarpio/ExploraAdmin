@@ -5,8 +5,8 @@ class CreateCourseStage1Controller < ApplicationController
     params = create_course_stage_1_params
     session[:tipo_institucion] = params[:tipo_institucion]
     session[:jornada] = params[:jornada]
-    # TODO: Redirigir a la pantall de Yanaleen.
-    redirect_to admin_create_course_s1_path
+
+    redirect_to admin_cursos_informacion_path
   end
 
   private

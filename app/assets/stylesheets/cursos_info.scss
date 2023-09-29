@@ -1,0 +1,28 @@
+.cursosinfo-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1rem;
+  overflow-y: scroll;
+  max-height: 50vh;
+
+  .fields-section {
+    .field {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    input {
+      font-size: 1rem;
+      width: 80%;
+    }
+
+    label {
+      font-size: 1rem;
+    }
+  }
+}
+

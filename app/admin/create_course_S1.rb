@@ -50,7 +50,7 @@ ActiveAdmin.register_page "Create course S1" do
 
       navigation_buttons(
         back: "/admin/periodos",
-        forward:  "/admin/dashboard"
+        forward:  "/admin/cursos_informacion"
       )
     end
   end

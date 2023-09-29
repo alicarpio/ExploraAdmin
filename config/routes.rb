@@ -22,6 +22,9 @@ Rails.application.routes.draw do
   # Create course stage 1
   resources :create_course_stage_1
 
+  # Create course final stage
+  resources :create_course
+
   # Send the user to the dashboard by default.
   #
   # This will in turn redirect to the login page

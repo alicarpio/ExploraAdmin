@@ -2,6 +2,15 @@ ActiveAdmin.register_page "Create course S1" do
   menu false
 
   content title: "Crear curso" do
+    tipo_institucion = session[:tipo_institucion]
+    jornada = session[:jornada]
+
+    def should_check(session_value, to_be_checked)
+      return true if session_value.nil?
+
+      session_value == to_be_checked
+    end
+
     form id: "course-S1", method: "post", action: "/create_course_stage_1" do
       div id: "tipo-institucion" do
         h2 "Escoja el tipo de institución"
@@ -11,7 +20,7 @@ ActiveAdmin.register_page "Create course S1" do
             id: "escuela",
             name: "tipo_institucion",
             value: "Escuela",
-            checked: "checked"
+            checked: should_check(tipo_institucion, "Escuela")
           )
           label "Escuela", for: "escuela"
         end
@@ -21,6 +30,7 @@ ActiveAdmin.register_page "Create course S1" do
             id: "colegio",
             name: "tipo_institucion",
             value: "Colegio",
+            checked: should_check(tipo_institucion, "Colegio")
           )
           label "Colegio", for: "colegio"
         end
@@ -33,7 +43,7 @@ ActiveAdmin.register_page "Create course S1" do
             id: "matutino",
             name: "jornada",
             value: "Matutino",
-            checked: "checked"
+            checked: should_check(jornada, "Matutino")
           )
           label "Matutino" , for: "matutino"
         end
@@ -42,7 +52,8 @@ ActiveAdmin.register_page "Create course S1" do
             type: "radio",
             id: "vespertino",
             name: "jornada",
-            value: "Vespertino"
+            value: "Vespertino",
+            checked: should_check(jornada, "Vespertino")
           )
           label "Vespertino" , for: "vespertino"
         end

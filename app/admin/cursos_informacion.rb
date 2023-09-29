@@ -9,8 +9,8 @@ ActiveAdmin.register_page "Cursos Informacion" do
     { id: 4, name: "Historia" },
   ]
 
-  class DisabledInput < Arbre::Component
-    builder_method :disabled_input
+  class ReadonlyInput < Arbre::Component
+    builder_method :readonly_input
 
     def build(label_name, input_name, input_value, attributes = {})
       super(attributes)
@@ -22,7 +22,7 @@ ActiveAdmin.register_page "Cursos Informacion" do
           type: "text",
           name: input_name,
           value: input_value,
-          disabled: true)
+          readonly: true)
       end
     end
   end
@@ -32,13 +32,17 @@ ActiveAdmin.register_page "Cursos Informacion" do
     tabs do
       materias.each do |materia|
         tab materia[:name] do
-          form method: "post", action: "/", class: "cursosinfo-form" do
+          form(
+            method: "post",
+            action: "/create_course",
+            enctype: "multipart/form-data",
+            class: "cursosinfo-form") do
             div class: "fields-section" do
-              disabled_input "Materia", "materia", materia[:name]
+              readonly_input "Materia", "materia", materia[:name]
               # TODO: ¿Esto de dónde se saca?
-              disabled_input "Paralelo", "paralelo", "Noveno"
-              disabled_input "Tipo Institución", "institucion", session[:tipo_institucion]
-              disabled_input "Jornada", "jornada", session[:jornada]
+              readonly_input "Paralelo", "paralelo", "Noveno"
+              readonly_input "Tipo Institución", "institucion", session[:tipo_institucion]
+              readonly_input "Jornada", "jornada", session[:jornada]
               div class: "field" do
                 label "Portada: ", for: "imagen"
                 input id: "imagen", type: "file", name: "imagen"
@@ -48,10 +52,10 @@ ActiveAdmin.register_page "Cursos Informacion" do
                 input id: "color", type: "color", name: "color"
               end
               # TODO: Esto no debería estar deshabilitado.
-              disabled_input "Docente", "docente", "docente"
+              readonly_input "Docente", "docente", "docente"
               div class: "field" do
-                label "Estudiantes: ", for: "file"
-                input id: "file", type: "file", name: "file"
+                label "Estudiantes: ", for: "estudiantes"
+                input id: "estudiantes", type: "file", name: "estudiantes"
               end
             end
 

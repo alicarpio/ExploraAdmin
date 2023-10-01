@@ -8,13 +8,19 @@
   }
 }
 
+#materias_checkboxes {
+  height: 50vh;
+  overflow-y: scroll;
+}
+
 .checkbox-option {
-  margin-top: 0.5rem;
   align-items: center;
   gap: 0.5rem;
+  display: flex;
 
   label {
-    padding: 0.5rem;
+    padding: 0.2rem;
     font-size: 1rem;
   }
 }
+

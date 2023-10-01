@@ -1,8 +1,12 @@
 ActiveAdmin.register_page "Create course S2" do
   menu false
 
-  content title: "Asignar Materias" do
-    form id: "course-S2", method: "post", action: "/create_course_stage_2", enctype: "multipart/form-data" do
+  class CargarMaterias < Arbre::Component
+    builder_method :cargar_materias
+
+    def build(attributes = {})
+      super(attributes)
+
       h2 "Cargar archivo de materias", class: "mb-1"
       div class: "flex justify-center items-end gap-1 mb-1 w-100" do
         div class: "w-16" do
@@ -24,16 +28,19 @@ ActiveAdmin.register_page "Create course S2" do
             )
         end
       end
-      input(
-        type: "hidden", 
-        id: "materias", 
-        name: "materias",
-      )
+    end
+  end
+
+  class AgregarMateria < Arbre::Component
+    builder_method :nueva_materia
+
+    def build(attributes = {})
+      super(attributes)
+
       h2 "Agregar una nueva materia", class: "mb-1"
       div class: "flex justify-center items-end gap-1 mb-1 w-100" do
         div class: "w-16" do
           label "Ingrese el nombre de la materia", for: "nueva_materia"
-          br
           input(
             id: "nueva_materia", 
             class: "border rounded p-1 uniform-input w-100 text-md"
@@ -48,9 +55,39 @@ ActiveAdmin.register_page "Create course S2" do
           )
         end
       end
-      div class: "mt-2" do
-        div id: "materias_checkboxes", class: "border p-2 rounded" do
-          h2 "Escoja las materias", class: "mt-1 ml-1"
+    end
+  end
+
+  content title: "Asignar Materias" do
+    form(
+      id: "course-S2",
+      method: "post",
+      action: "/create_course_stage_2",
+      enctype: "multipart/form-data") do
+
+      columns do
+        column do
+          cargar_materias
+          input type: "hidden", id: "materias", name: "materias"
+          nueva_materia
+        end
+        column do
+          div class: "mt-2" do
+            div id: "materias_checkboxes", class: "p-2" do
+              h2 "Escoja las materias", class: "mt-1 ml-1"
+              (session[:materias_seleccionadas] || []).each_with_index do |materia, i|
+                div class: "checkbox-option" do
+                  checkbox_id = "#{materia}#{i}" 
+                  input(
+                    type: "checkbox",
+                    id: checkbox_id,
+                    name: "materias_seleccionadas[]",
+                    value: materia)
+                  label materia, for: checkbox_id
+                end
+              end
+            end
+          end
         end
       end
 
@@ -63,7 +100,7 @@ ActiveAdmin.register_page "Create course S2" do
         raw("
           $(document).ready(function() {
             $('#btn_cargar_materias').click(function() {
-              var formData = new FormData();
+              const formData = new FormData();
               formData.append('materias_file', $('#materias_file')[0].files[0]);
               $.ajax({
                 url: '/cargar_materias_desde_archivo',
@@ -73,22 +110,20 @@ ActiveAdmin.register_page "Create course S2" do
                 contentType: false,
                 success: function(data) {
                   if (data.materias) {
-                    
                     $('#materias').val(data.materias.join(','));
-                    console.log('Materias cargadas', data.materias);
-                    alert('Materias cargadas exitosamente');
                     $('#materias_checkboxes').empty();
-                    var titulo = $('<h2>Escoja las materias</h2>');
+                    const titulo = $('<h2>Escoja las materias</h2>');
                     $('#materias_checkboxes').append(titulo);
                     data.materias.forEach(function(materia, index) {
                       var checkbox_id = 'materia' + (index + 1);
-                      var checkbox_option = $('<div class=\"checkbox-option\"><input type=\"checkbox\" id=\"' + checkbox_id + '\" name=\"materias_seleccionadas[]\" value=\"' + materia + '\"><label for=\"' + checkbox_id + '\">' + materia + '</label></div>');
-                      checkbox_option.css({
-                        'display': 'flex',
-                        'align-items': 'center',
-                        'gap': '10px',
-                        'margin-bottom': '10px'
-                      });
+                      var checkbox_option = $(`
+                        <div class=checkbox-option>
+                          <input type=checkbox
+                                 id=${checkbox_id}
+                                 name=\"materias_seleccionadas[]\"
+                                 value=${materia} />
+                          <label for=${checkbox_id}>${materia}</label>
+                        </div>`);
                       checkbox_option.find('input').prop('checked', true);
                       $('#materias_checkboxes').append(checkbox_option);
                     });
@@ -103,16 +138,16 @@ ActiveAdmin.register_page "Create course S2" do
             });
 
             $('#btn_agregar_materia').click(function() {
-              var nueva_materia = $('#nueva_materia').val();
+              const nueva_materia = $('#nueva_materia').val();
               if (nueva_materia) {
-                var checkbox_id = 'materia' + ($('#materias_checkboxes.checkbox-option').length + 1);
-                var checkbox_option = $('<div class=\"checkbox-option\"><input type=\"checkbox\" id=\"' + checkbox_id + '\" name=\"materias_seleccionadas[]\" value=\"' + nueva_materia + '\"><label for=\"' + checkbox_id + '\">' + nueva_materia + '</label></div>');
-                checkbox_option.css({
-                  'display': 'flex',
-                  'align-items': 'center',
-                  'gap': '10px',
-                  'margin-bottom': '10px'
-                });
+                const checkbox_id = 'materia' + ($('#materias_checkboxes.checkbox-option').length + 1);
+                const checkbox_option = $(`
+                  <div class=\"checkbox-option\">
+                    <input type=checkbox id=${checkbox_id}
+                           name=\"materias_seleccionadas[]\" 
+                           value=${nueva_materia} />
+                    <label for=${checkbox_id}>${nueva_materia}</label>
+                  </div>`);
                 checkbox_option.find('input').prop('checked', true);
                 $('#materias_checkboxes').append(checkbox_option);
                 $('#nueva_materia').val('');

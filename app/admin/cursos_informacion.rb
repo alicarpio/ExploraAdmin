@@ -1,14 +1,6 @@
 ActiveAdmin.register_page "Cursos Informacion" do
   menu false
 
-  # TODO: Esto deberia estar seteado en la session.
-  materias = [
-    { id: 1, name: "Ciencias" },
-    { id: 2, name: "Matematica" },
-    { id: 3, name: "Fisica" },
-    { id: 4, name: "Historia" },
-  ]
-
   class ReadonlyInput < Arbre::Component
     builder_method :readonly_input
 
@@ -30,15 +22,15 @@ ActiveAdmin.register_page "Cursos Informacion" do
   content title: "Crear Curso" do
     h1 "Unidad Educativa #{session[:institution]}"
     tabs do
-      materias.each do |materia|
-        tab materia[:name] do
+      session[:materias_seleccionadas].each do |materia|
+        tab materia do
           form(
             method: "post",
             action: "/create_course",
             enctype: "multipart/form-data",
             class: "cursosinfo-form") do
             div class: "fields-section" do
-              readonly_input "Materia", "materia", materia[:name]
+              readonly_input "Materia", "materia", materia
               # TODO: ¿Esto de dónde se saca?
               readonly_input "Paralelo", "paralelo", "Noveno"
               readonly_input "Tipo Institución", "institucion", session[:tipo_institucion]
@@ -71,6 +63,6 @@ ActiveAdmin.register_page "Cursos Informacion" do
       end
     end
 
-    navigation_buttons back: "/admin/create_course_s1"
+    navigation_buttons back: "/admin/create_course_s2"
   end
 end

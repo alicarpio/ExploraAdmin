@@ -3,6 +3,7 @@ class CreateCourseStage2Controller < ApplicationController
 
   def create
     params = create_course_stage_2_params
+    logger.debug "Got materias: #{params}"
     session[:materias_seleccionadas] = params[:materias_seleccionadas]
     redirect_to admin_cursos_informacion_path
   end

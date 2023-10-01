@@ -11,7 +11,6 @@ ActiveAdmin.register_page "Create course S2" do
       div class: "flex justify-center items-end gap-1 mb-1 w-100" do
         div class: "w-16" do
           label "Seleccionar un archivo", for: "materias_file"
-          br
           input(
             type: "file", 
             id: "materias_file", 
@@ -68,13 +67,12 @@ ActiveAdmin.register_page "Create course S2" do
       columns do
         column do
           cargar_materias
-          input type: "hidden", id: "materias", name: "materias"
           nueva_materia
         end
         column do
           div class: "mt-2" do
+            h2 "Escoja las materias", class: "mt-1 ml-1"
             div id: "materias_checkboxes", class: "p-2" do
-              h2 "Escoja las materias", class: "mt-1 ml-1"
               (session[:materias_seleccionadas] || []).each_with_index do |materia, i|
                 div class: "checkbox-option" do
                   checkbox_id = "#{materia}#{i}" 
@@ -82,7 +80,8 @@ ActiveAdmin.register_page "Create course S2" do
                     type: "checkbox",
                     id: checkbox_id,
                     name: "materias_seleccionadas[]",
-                    value: materia)
+                    value: materia,
+                    checked: true)
                   label materia, for: checkbox_id
                 end
               end
@@ -110,21 +109,18 @@ ActiveAdmin.register_page "Create course S2" do
                 contentType: false,
                 success: function(data) {
                   if (data.materias) {
-                    $('#materias').val(data.materias.join(','));
                     $('#materias_checkboxes').empty();
-                    const titulo = $('<h2>Escoja las materias</h2>');
-                    $('#materias_checkboxes').append(titulo);
                     data.materias.forEach(function(materia, index) {
                       var checkbox_id = 'materia' + (index + 1);
                       var checkbox_option = $(`
                         <div class=checkbox-option>
                           <input type=checkbox
-                                 id=${checkbox_id}
+                                 id=\"${checkbox_id}\"
                                  name=\"materias_seleccionadas[]\"
-                                 value=${materia} />
-                          <label for=${checkbox_id}>${materia}</label>
+                                 value=\"${materia}\"
+                                 checked />
+                          <label for=\"${checkbox_id}\">${materia}</label>
                         </div>`);
-                      checkbox_option.find('input').prop('checked', true);
                       $('#materias_checkboxes').append(checkbox_option);
                     });
                   } else {
@@ -143,12 +139,13 @@ ActiveAdmin.register_page "Create course S2" do
                 const checkbox_id = 'materia' + ($('#materias_checkboxes.checkbox-option').length + 1);
                 const checkbox_option = $(`
                   <div class=\"checkbox-option\">
-                    <input type=checkbox id=${checkbox_id}
+                    <input type=checkbox
+                           id=\"${checkbox_id}\"
                            name=\"materias_seleccionadas[]\" 
-                           value=${nueva_materia} />
-                    <label for=${checkbox_id}>${nueva_materia}</label>
+                           value=\"${nueva_materia}\"
+                           checked />
+                    <label for=\"${checkbox_id}\">${nueva_materia}</label>
                   </div>`);
-                checkbox_option.find('input').prop('checked', true);
                 $('#materias_checkboxes').append(checkbox_option);
                 $('#nueva_materia').val('');
               }

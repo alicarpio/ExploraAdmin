@@ -6,7 +6,7 @@ class CreateCourseStage1Controller < ApplicationController
     session[:tipo_institucion] = params[:tipo_institucion]
     session[:jornada] = params[:jornada]
 
-    redirect_to admin_cursos_informacion_path
+    redirect_to admin_create_course_s2_path
   end
 
   private

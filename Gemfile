@@ -76,3 +76,6 @@ end
 gem "activeadmin"
 gem "devise"
 gem "excon"
+
+# Excel stuff
+gem "roo"

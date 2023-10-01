@@ -22,6 +22,15 @@ Rails.application.routes.draw do
   # Create course stage 1
   resources :create_course_stage_1
 
+  # Create course stage 2
+  resources :create_course_stage_2
+
+  post(
+    "/cargar_materias_desde_archivo",
+    to: "create_course_stage_2#cargar_materias_desde_archivo"
+  )
+
+
   # Create course final stage
   resources :create_course
 

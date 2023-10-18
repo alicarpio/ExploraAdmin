@@ -6,6 +6,20 @@ ActiveAdmin.register_page "Create course S2" do
 
     def build(attributes = {})
       super(attributes)
+      
+      h2 "Seleccione el nivel de curso", class: "mb-1" 
+
+      div class: "niveles-escuela" do
+        select name: "niveles",  class: "niveles" do 
+          option  "Primero", value: "1"
+          option  "Segundo", value: "2"
+          option  "Tercero", value: "3"
+          option  "Cuarto", value: "4"
+          option  "Quinto", value: "5"
+          option  "Sexto", value: "6"
+          option  "Septimo", value: "7"
+        end 
+      end
 
       h2 "Cargar archivo de materias", class: "mb-1"
       div class: "flex justify-center items-end gap-1 mb-1 w-100" do

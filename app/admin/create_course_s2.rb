@@ -93,6 +93,7 @@ ActiveAdmin.register_page "Create course S2" do
                     value: materia,
                     checked: true)
                   label materia, for: checkbox_id
+                  span "x", class: "delete-checkbox", data: { checkbox_id: checkbox_id }
                 end
               end
             end
@@ -159,6 +160,10 @@ ActiveAdmin.register_page "Create course S2" do
                 $('#materias_checkboxes').append(checkbox_option);
                 $('#nueva_materia').val('');
               }
+            });
+            $(document).on('click', '.delete-checkbox', function() {
+              var checkboxId = $(this).data('checkbox_id');
+              $('#' + checkboxId).parent().remove();
             });
           });
         ")

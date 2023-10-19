@@ -11,13 +11,9 @@ ActiveAdmin.register_page "Create course S2" do
 
       div class: "niveles-escuela" do
         select name: "niveles",  class: "niveles" do 
-          option  "Primero", value: "1"
-          option  "Segundo", value: "2"
-          option  "Tercero", value: "3"
-          option  "Cuarto", value: "4"
-          option  "Quinto", value: "5"
-          option  "Sexto", value: "6"
-          option  "Septimo", value: "7"
+          (session[:niveles] || []).each_with_index do |nivel, i|
+            option nivel, value: nivel
+          end
         end 
       end
 

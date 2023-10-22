@@ -1,5 +1,5 @@
 class Curso < ApplicationRecord
   belongs_to :periodo
   belongs_to :docente
-  has_many_and_belongs_to_many :estudiante
+  has_and_belongs_to_many :estudiante
 end

@@ -35,30 +35,28 @@ class CreateCourseStage2Controller < ApplicationController
 
       # offset en 5 porque los datos inician en la fila 6
       xlsx.each_row_streaming(offset: 5) do |row|
-        cedula = row[3..4].join(' ')
+        cedula = row[3..4][0]
         
         nombre_completo = row[5..8].join(' ').split(' ')
         apellidos = "#{nombre_completo[0]} #{nombre_completo[1]}"
         nombres = "#{nombre_completo[2]} #{nombre_completo[3]}"
 
-        correo = row[9..14].join(' ')
-        
-        estudiante = Estudiante.new( 
-          cedula: cedula, 
-          apellidos: apellidos, 
-          nombres: nombres, 
-          correo: correo
-        )
-        
-        estudiante.save!
-      end
+        correo = row[9..14][0]
 
-      # print all students in console
-      estudiantes = Estudiante.all
-      puts "==========================="
-      puts "Estudiantes cargados:"
-      puts estudiantes
-      puts "==========================="
+        if cedula.empty? || nombre_completo.empty? || correo.empty?
+          next        
+        else
+          estudiante = Estudiante.new( 
+            cedula: cedula, 
+            apellidos: apellidos, 
+            nombres: nombres, 
+            correo: correo
+          )
+
+          estudiante.save!
+        end
+
+      end
       render json: { message: 'Estudiantes cargados exitosamente' }
     else
       render json: { error: 'No se subió ningún archivo' }, status: 400

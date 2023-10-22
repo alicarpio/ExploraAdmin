@@ -1,7 +1,8 @@
 class Estudiante < ApplicationRecord
-  validates :nombre, presence: true
-  validates :apellido, presence: true
+  validates :nombres, presence: true
+  validates :apellidos, presence: true
+  validates :cedula, presence: true
+  validates :correo, presence: true
   
-  has_many_and_belongs_to_many :curso
-  # TODO: Maybe validate cedula as well.
+  has_and_belongs_to_many :cursos
 end

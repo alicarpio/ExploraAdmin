@@ -79,3 +79,6 @@ gem "excon"
 
 # Excel stuff
 gem "roo"
+gem 'rubyzip'
+gem "axlsx"
+gem 'zip-zip'

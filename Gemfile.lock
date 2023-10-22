@@ -80,6 +80,10 @@ GEM
     arbre (1.6.0)
       activesupport (>= 3.0.0, < 7.1)
       ruby2_keywords (>= 0.0.2, < 1.0)
+    axlsx (1.3.6)
+      htmlentities (~> 4.3.1)
+      nokogiri (>= 1.4.1)
+      rubyzip (>= 0.9.5)
     bcrypt (3.1.19)
     bindex (0.8.1)
     bootsnap (1.16.0)
@@ -117,6 +121,7 @@ GEM
     has_scope (0.8.1)
       actionpack (>= 5.2)
       activesupport (>= 5.2)
+    htmlentities (4.3.4)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     importmap-rails (1.2.1)
@@ -279,12 +284,15 @@ GEM
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.6.11)
+    zip-zip (0.3)
+      rubyzip (>= 1.0.0)
 
 PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
   activeadmin
+  axlsx
   bootsnap
   capybara
   debug
@@ -295,6 +303,7 @@ DEPENDENCIES
   puma (~> 5.0)
   rails (~> 7.0.8)
   roo
+  rubyzip
   sassc-rails
   selenium-webdriver
   sprockets-rails
@@ -303,6 +312,7 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   web-console
+  zip-zip
 
 RUBY VERSION
    ruby 3.1.0p0

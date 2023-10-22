@@ -63,6 +63,20 @@ class CreateCourseStage2Controller < ApplicationController
     end
   end
 
+  def exportar_estudiantes
+
+    pkg = Axlsx::Package.new
+    pkg.use_shared_strings = true
+
+    pkg.workbook.add_worksheet(name: "Estudiantes") do |sheet|
+      sheet.add_row ["cedula", "nombres", "apellidos", "correo"]
+      Estudiante.all.each do |estudiante|
+        sheet.add_row [estudiante.cedula, estudiante.nombres, estudiante.apellidos, estudiante.correo]
+      end
+    end
+    send_data pkg.to_stream.read, :filename => "estudiantes.xlsx", :type => "application/xlsx"
+  end
+
 
   private
 

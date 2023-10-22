@@ -25,6 +25,10 @@ Rails.application.routes.draw do
   # Create course stage 2
   resources :create_course_stage_2
 
+  get("/exportar_estudiantes", 
+    to: "create_course_stage_2#exportar_estudiantes"
+  )
+
   post(
     "/cargar_materias_desde_archivo",
     to: "create_course_stage_2#cargar_materias_desde_archivo"

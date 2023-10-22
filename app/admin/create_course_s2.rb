@@ -67,34 +67,6 @@ ActiveAdmin.register_page "Create course S2" do
     end
   end
 
-  class CargarStudiantes < Arbre::Component
-    builder_method :cargar_estudiantes
-
-    def build(attributes = {})
-      super(attributes)
-      h2 "Cargar archivo de estudiantes", class: "mb-1"
-      div class: "flex justify-center items-end gap-1 mb-1 w-100" do
-        div class: "w-16" do
-          label "Seleccionar un archivo", for: "estudiantes_file"
-          input(
-            type: "file", 
-            id: "estudiantes_file", 
-            name: "estudiantes_file", 
-            class: "border rounded p-1 uniform-input w-100 text-md"
-          )
-        end
-        div class: "form-actions" do
-            button(
-              "Cargar Estudiantes",
-              id: "btn_cargar_estudiantes",
-              type: "button",
-              class: "action-button"
-            )
-        end
-      end
-    end
-  end
-
   content title: "Asignar Materias" do
     form(
       id: "course-S2",
@@ -106,7 +78,6 @@ ActiveAdmin.register_page "Create course S2" do
         column do
           cargar_materias
           nueva_materia
-          cargar_estudiantes
         end
         column do
           div class: "mt-2" do
@@ -193,27 +164,6 @@ ActiveAdmin.register_page "Create course S2" do
             $(document).on('click', '.delete-checkbox', function() {
               var checkboxId = $(this).data('checkbox_id');
               $('#' + checkboxId).parent().remove();
-            });
-            $('#btn_cargar_estudiantes').click(function() {
-              const formData = new FormData();
-              formData.append('estudiantes_file', $('#estudiantes_file')[0].files[0]);
-              $.ajax({
-                url: '/cargar_estudiantes_desde_archivo',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(data) {
-                  if (data.message) {
-                    alert(data.message);
-                  } else {
-                    alert('Hubo un error al cargar los estudiantes');
-                  }
-                },
-                error: function() {
-                  alert('Hubo un error al cargar los estudiantes');
-                }
-              });   
             });
           });
         ")
